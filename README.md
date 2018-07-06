@@ -1,4 +1,4 @@
-![snappy-c](http://halobates.de/snappy-c.png)
+![snappy-c (forked)](http://halobates.de/snappy-c.png)
 
 My change on it
 ----
@@ -7,7 +7,7 @@ changed file: Makefile, snappy.c\
 You can change the CHAINTHRESH parameter in Makefile to get a better peroformance.
 
 
-Original README is below
+Original README
 -------
 
 This is a C port of the google snappy compressor (http://code.google.com/p/snappy/)
