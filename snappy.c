@@ -920,7 +920,15 @@ static char *compress_fragment(const char *const input,
 				DCHECK_GE(candidate, baseip);
 				DCHECK_LT(candidate, ip);
 
+#ifdef CHAINOPTIMIZATION
+				if(table[hval]==0){
+					table[hval] = ip - baseip;
+				}else if((ip - baseip-table[hval])>CHAINTHRESH){
+					table[hval] = ip - baseip;
+				}
+#else
 				table[hval] = ip - baseip;
+#endif
 			} while (likely(UNALIGNED_LOAD32(ip) !=
 					UNALIGNED_LOAD32(candidate)));
 
@@ -971,13 +979,33 @@ static char *compress_fragment(const char *const input,
 				u32 prev_hash =
 				    hash_bytes(get_u32_at_offset
 					       (input_bytes, 0), shift);
+						   
+#ifdef CHAINOPTIMIZATION
+				if(table[prev_hash]==0){
+					table[prev_hash] = ip - baseip - 1;
+				}else if((ip - baseip - 1-table[prev_hash])>CHAINTHRESH){
+					table[prev_hash] = ip - baseip - 1;
+				}
+#else
 				table[prev_hash] = ip - baseip - 1;
+#endif
 				u32 cur_hash =
 				    hash_bytes(get_u32_at_offset
 					       (input_bytes, 1), shift);
 				candidate = baseip + table[cur_hash];
 				candidate_bytes = UNALIGNED_LOAD32(candidate);
+				
+				
+#ifdef CHAINOPTIMIZATION
+				if(table[cur_hash]==0){
+					table[cur_hash] = ip - baseip;
+				}else if((ip - baseip-table[cur_hash])>CHAINTHRESH){
+					table[cur_hash] = ip - baseip;
+				}
+#else
 				table[cur_hash] = ip - baseip;
+#endif
+				
 			} while (get_u32_at_offset(input_bytes, 1) ==
 				 candidate_bytes);
 
