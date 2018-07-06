@@ -3,9 +3,8 @@
 My change on it
 ----
 This is a modified snappy compression software forked from google. It change the compression algerithm a little while keep the Snappy format. I add a threshhold to update function of hash table, so the hash table will not be updated after every match, thus the copy token will not always copy from the nearest match. From the real test, this change cause almost no reduction on compression ratio, but making the performance of parallel decompression on some data much batter.\
-changed file:\
-Makefile, snappy.c\
-
+changed file: Makefile, snappy.c\
+You can change the CHAINTHRESH parameter in Makefile to get a better peroformance.
 
 
 Original README is below
