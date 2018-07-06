@@ -1,4 +1,4 @@
-![snappy-c (forked)](http://halobates.de/snappy-c.png)
+![forked snappy-c](http://halobates.de/snappy-c.png)
 
 My change on it
 ----
